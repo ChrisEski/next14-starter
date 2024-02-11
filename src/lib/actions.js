@@ -1,6 +1,6 @@
 "use server";
 
-import { Post } from "./models";
+import { Post, User } from "./models";
 import { connectToDb } from "./utils";
 import { revalidatePath } from "next/cache";
 import { signIn, signOut } from "@/lib/auth";
