@@ -46,3 +46,34 @@ export const handleGithubLogin = async () => {
 export const handleLogout = async () => {
   await signOut();
 };
+
+export const register = async (formData) => {
+  const { username, email, password, passwordRepeat, img } = Object.fromEntries(formData);
+
+  if (password !== passwordRepeat) {
+    return "Passwords do not match";
+  }
+
+  try {
+    connectToDb();
+
+    const user = await User.findOne({ username });
+
+    if (user) {
+      return "User already exists";
+    }
+
+    const newUser = new User({
+      username,
+      email,
+      password,
+      img,
+    });
+
+    await newUser.save();
+    console.log("New user saved to database");
+  } catch (error) {
+    console.log(error);
+    return { error: "Something went wrong" };
+  }
+};
